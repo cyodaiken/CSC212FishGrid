@@ -47,7 +47,7 @@ public class Rock extends WorldObject {
 	 */
 	@Override
 	public void draw(Graphics2D g) {
-		// TODO(lab): use the right color in here...
+		
 		
 		g.setColor(ROCK_COLORS[indexRock]);
 		RoundRectangle2D rock = new RoundRectangle2D.Double(-.5,-.5,1,1,0.3,0.3);

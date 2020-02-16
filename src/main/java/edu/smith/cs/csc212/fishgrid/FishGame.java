@@ -1,5 +1,6 @@
 package edu.smith.cs.csc212.fishgrid;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +24,8 @@ public class FishGame {
 	 * The home location.
 	 */
 	FishHome home;
+	
+	Fish fastScared;
 	/**
 	 * These are the missing fish!
 	 */
@@ -60,13 +63,14 @@ public class FishGame {
 		home = world.insertFishHome();
 		
 		
-		
+		for (int i=0; i<NUM_ROCKS; i++) {
+			world.insertFallingRockRandomly();
+			}
 		
 		for (int i=0; i<NUM_ROCKS; i++) {
 			world.insertRockRandomly();
+			
 		}
-		
-		
 		
 		world.insertSnailRandomly();
 		
@@ -124,15 +128,18 @@ public class FishGame {
 				// Convince Java it's a Fish (we know it is!)
 				Fish justFound = (Fish) wo;
 				
-				// Remove from world.
-				// TODO(lab): add to found instead! (So we see objectsFollow work!)
-				
 				found.add(justFound);
 				
 				missing.remove(justFound);
 				
 				// Increase score when you find a fish!
-				score += 10;
+				
+				if (justFound.getColor() == Color.magenta) {
+					score += 50;
+				} else {
+					score += 10;
+				}
+				
 			}
 		}
 		
@@ -144,17 +151,27 @@ public class FishGame {
 		world.stepAll();
 	}
 	
-	/**
-	 * Call moveRandomly() on all of the missing fish to make them seem alive.
-	 */
 	private void wanderMissingFish() {
 		Random rand = ThreadLocalRandom.current();
+
 		for (Fish lost : missing) {
 			// 30% of the time, lost fish move randomly.
-			if (rand.nextDouble() < 0.3) {
-				lost.moveRandomly();
+			// if (rand.nextDouble() < 0.3) { 
+			// lost.moveRandomly(); 
+			// }
+			
+			// TA Grace helped me
+			if(lost.fastScared) {
+				if (rand.nextDouble() < 0.8) {
+					lost.moveRandomly(); 
+				}
+			} else { 
+				if (rand.nextDouble() < 0.3) { 
+					lost.moveRandomly(); 
+				} 
 			}
 		}
+
 	}
 
 	/**

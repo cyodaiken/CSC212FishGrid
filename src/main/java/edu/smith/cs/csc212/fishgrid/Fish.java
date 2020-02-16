@@ -21,10 +21,8 @@ public class Fish extends WorldObject {
 			Color.yellow,
 			Color.magenta,
 			Color.pink,
-			Color.orange
-	
+			Color.orange	
 			
-			// TODO: (FishGrid) Maybe make a special fish that is more points?
 	};
 	/**
 	 * This is an index into the {@link #COLORS} array.
@@ -35,13 +33,14 @@ public class Fish extends WorldObject {
 	 */
 	boolean player = false;
 	
+	boolean fastScared;
+	
 	/**
 	 * Called only on the Fish that is the player!
 	 */
 	public void markAsPlayer() {
 		this.player = true;
 	}
-
 
 	/**
 	 * A Fish knows what World it belongs to, because all WorldObjects do.
@@ -51,6 +50,12 @@ public class Fish extends WorldObject {
 	public Fish(int color, World world) {
 		super(world);
 		this.color = color;
+		int isFastScared = rand.nextInt(10);
+		if(isFastScared < 4) {
+		this.fastScared = true;
+		} else {
+			this.fastScared = false;
+		}
 	}
 	
 	/**
