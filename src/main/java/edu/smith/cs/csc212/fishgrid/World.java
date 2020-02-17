@@ -218,11 +218,27 @@ public class World {
 				// The Snail(s) are not gonna take it.
 				return false;
 			}
+			if (it instanceof Rock) {
+				return false;
+			}
+			if (it instanceof Fish) {
+				
+				if( isPlayer) {
+					return true;
+				} else {
+					return false;
+				}
+			
+				
+			}
+			
 		}
 		
 		// If we didn't see an obstacle, we can move there!
 		return true;
+	
 	}
+	
 	
 	/**
 	 * This is how objects may move. Only Snails do right now.

@@ -123,7 +123,10 @@ public abstract class WorldObject {
 	public boolean isFish() {
 		return this instanceof Fish;
 	}
-
+	
+	public boolean isRock() {
+		return this instanceof Rock;
+	}
 	/**
 	 * Is this the player?
 	 * 

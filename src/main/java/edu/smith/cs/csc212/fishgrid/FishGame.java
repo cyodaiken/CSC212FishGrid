@@ -155,10 +155,6 @@ public class FishGame {
 		Random rand = ThreadLocalRandom.current();
 
 		for (Fish lost : missing) {
-			// 30% of the time, lost fish move randomly.
-			// if (rand.nextDouble() < 0.3) { 
-			// lost.moveRandomly(); 
-			// }
 			
 			// TA Grace helped me
 			if(lost.fastScared) {
@@ -184,6 +180,13 @@ public class FishGame {
 		System.out.println("Clicked on: "+x+","+y+ " world.canSwim(player,...)="+world.canSwim(player, x, y));
 		List<WorldObject> atPoint = world.find(x, y);
 		// TODO(FishGrid) allow the user to click and remove rocks.
+		for (WorldObject wo: atPoint) {
+			if(wo.isRock()) {
+				wo.remove();
+			}
+			
+		}
+		
 
 	}
 	
