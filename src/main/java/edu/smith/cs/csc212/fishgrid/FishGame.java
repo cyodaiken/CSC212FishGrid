@@ -36,7 +36,10 @@ public class FishGame {
 	 */
 	List<Fish> found;
 	
+	List<Fish> homeFish;
+	
 	public static final int NUM_ROCKS = 8;
+	public static final int NUM_FALLING_ROCKS = 10;
 	
 	/**
 	 * Number of steps!
@@ -58,12 +61,14 @@ public class FishGame {
 		
 		missing = new ArrayList<Fish>();
 		found = new ArrayList<Fish>();
+		homeFish = new ArrayList<Fish>();
+		
 		
 		// Add a home!
 		home = world.insertFishHome();
 		
 		
-		for (int i=0; i<NUM_ROCKS; i++) {
+		for (int i=0; i<NUM_FALLING_ROCKS; i++) {
 			world.insertFallingRockRandomly();
 			}
 		
@@ -88,7 +93,6 @@ public class FishGame {
 		}		
 	}
 	
-	
 	/**
 	 * How we tell if the game is over: if missingFishLeft() == 0.
 	 * @return the size of the missing list.
@@ -103,6 +107,18 @@ public class FishGame {
 	 */
 	public boolean gameOver() {
 		// TODO(FishGrid) We want to bring the fish home before we win!
+		// this.player.getX() == this.home.getX() && this.player.getY() == this.home.getY()
+		if(this.player.inSameSpot(this.home)) {
+
+			homeFish.addAll(found);
+			
+			for(WorldObject wo : found) {
+
+				found.remove(wo);
+				world.remove(wo);
+			}
+
+		}
 		return missing.isEmpty();
 	}
 
@@ -179,7 +195,7 @@ public class FishGame {
 		// TODO(FishGrid) use this print to debug your World.canSwim changes!
 		System.out.println("Clicked on: "+x+","+y+ " world.canSwim(player,...)="+world.canSwim(player, x, y));
 		List<WorldObject> atPoint = world.find(x, y);
-		// TODO(FishGrid) allow the user to click and remove rocks.
+		
 		for (WorldObject wo: atPoint) {
 			if(wo.isRock()) {
 				wo.remove();

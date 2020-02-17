@@ -168,7 +168,7 @@ public class World {
 		return f;
 	}
 	
-	// TA Lauren helped me w. this
+	// TA Lauren helped me w/ this
 	public FallingRock insertFallingRockRandomly() {
 		FallingRock r = new FallingRock(this);
 		insertRandomly(r);
@@ -211,7 +211,7 @@ public class World {
 		List<WorldObject> inSpot = this.find(x, y);
 		
 		for (WorldObject it : inSpot) {
-			// TODO(FishGrid): Don't let us move over rocks as a Fish.
+		
 			// The other fish shouldn't step "on" the player, the player should step on the other fish.
 			if (it instanceof Snail) {
 				// This if-statement doesn't let anyone step on the Snail.
@@ -228,7 +228,6 @@ public class World {
 				} else {
 					return false;
 				}
-			
 				
 			}
 			
@@ -238,8 +237,6 @@ public class World {
 		return true;
 	
 	}
-	
-	
 	/**
 	 * This is how objects may move. Only Snails do right now.
 	 */
