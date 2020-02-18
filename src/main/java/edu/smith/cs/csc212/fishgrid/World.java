@@ -255,7 +255,6 @@ public class World {
 	public static void objectsFollow(WorldObject target, List<? extends WorldObject> followers) {
 		// TODO(FishGrid) Comment this method!
 		// Q1. What is recentPositions?
-		// System.out.println("recentPositions" + recentPositions);
 		// Q2. What is followers?
 		// Q3. What is target?
 		// Q4. Why is past = putWhere[i+1]? Why not putWhere[i]?

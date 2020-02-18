@@ -21,7 +21,7 @@ public abstract class WorldObject {
 	/**
 	 * Random in case you want random numbers!
 	 */
-	Random rand = ThreadLocalRandom.current();
+	protected Random rand = ThreadLocalRandom.current();
 	/**
 	 * Where am I? x-tile in the grid.
 	 */

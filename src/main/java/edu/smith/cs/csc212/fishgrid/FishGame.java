@@ -51,6 +51,8 @@ public class FishGame {
 	 */
 	int score;
 	
+	
+	
 	/**
 	 * Create a FishGame of a particular size.
 	 * @param w how wide is the grid?
@@ -62,7 +64,6 @@ public class FishGame {
 		missing = new ArrayList<Fish>();
 		found = new ArrayList<Fish>();
 		homeFish = new ArrayList<Fish>();
-		
 		
 		// Add a home!
 		home = world.insertFishHome();
@@ -107,20 +108,33 @@ public class FishGame {
 	 */
 	public boolean gameOver() {
 		// TODO(FishGrid) We want to bring the fish home before we win!
-		// this.player.getX() == this.home.getX() && this.player.getY() == this.home.getY()
+
 		if(this.player.inSameSpot(this.home)) {
 
 			homeFish.addAll(found);
-			
-			for(WorldObject wo : found) {
-
-				found.remove(wo);
-				world.remove(wo);
+			for(WorldObject fish : found) {
+				world.remove(fish);
 			}
-
+			for(WorldObject fish: homeFish) {
+				found.remove(fish);
+			}
 		}
-		return missing.isEmpty();
+		
+		for(Fish fish: missing) {
+
+			if(fish.inSameSpot(this.home)) {
+				homeFish.add(fish);
+				world.remove(fish);
+			}	
+		}
+
+		for(Fish fish1: homeFish) {
+			missing.remove(fish1);
+		}
+		
+		return missing.isEmpty() && found.isEmpty();
 	}
+	
 
 	/**
 	 * Update positions of everything (the user has just pressed a button).
@@ -128,7 +142,23 @@ public class FishGame {
 	public void step() {
 		// Keep track of how long the game has run.
 		this.stepsTaken += 1;
-				
+
+		// Make sure missing fish *do* something.
+		wanderMissingFish();
+
+		for(Fish fish: found) {
+
+			fish.bored+= 1;
+
+			if(fish.bored > 20) {
+				missing.add(fish);
+			}
+		}
+
+		for(Fish fish1: missing) {
+			found.remove(fish1);
+			fish1.bored = 0;
+		}
 		// These are all the objects in the world in the same cell as the player.
 		List<WorldObject> overlap = this.player.findSameCell();
 		// The player is there, too, let's skip them.
@@ -154,13 +184,10 @@ public class FishGame {
 					score += 50;
 				} else {
 					score += 10;
-				}
-				
+				}	
 			}
 		}
 		
-		// Make sure missing fish *do* something.
-		wanderMissingFish();
 		// When fish get added to "found" they will follow the player around.
 		World.objectsFollow(player, found);
 		// Step any world-objects that run themselves.
@@ -170,8 +197,7 @@ public class FishGame {
 	private void wanderMissingFish() {
 		Random rand = ThreadLocalRandom.current();
 
-		for (Fish lost : missing) {
-			
+		for (Fish lost : missing) {	
 			// TA Grace helped me
 			if(lost.fastScared) {
 				if (rand.nextDouble() < 0.8) {

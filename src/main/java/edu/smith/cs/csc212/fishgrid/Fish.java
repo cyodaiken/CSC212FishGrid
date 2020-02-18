@@ -35,6 +35,8 @@ public class Fish extends WorldObject {
 	
 	boolean fastScared;
 	
+	int bored;
+	
 	/**
 	 * Called only on the Fish that is the player!
 	 */
@@ -50,6 +52,7 @@ public class Fish extends WorldObject {
 	public Fish(int color, World world) {
 		super(world);
 		this.color = color;
+		this.bored = 0;
 		int isFastScared = rand.nextInt(10);
 		if(isFastScared < 4) {
 		this.fastScared = true;
