@@ -107,7 +107,6 @@ public class FishGame {
 	 * @return true if the player has won (or maybe lost?).
 	 */
 	public boolean gameOver() {
-		// TODO(FishGrid) We want to bring the fish home before we win!
 
 		if(this.player.inSameSpot(this.home)) {
 
@@ -146,15 +145,14 @@ public class FishGame {
 		// Make sure missing fish *do* something.
 		wanderMissingFish();
 
-		for(Fish fish: found) {
-
-			fish.bored+= 1;
-
-			if(fish.bored > 20) {
-				missing.add(fish);
-			}
-		}
-
+		
+		  for(Fish fish: found) { 
+			  fish.bored+= 1; 
+			  if(fish.bored > 20 && found.size() > 1) {
+				  missing.add(fish); 
+				  } 
+			  }
+		 
 		for(Fish fish1: missing) {
 			found.remove(fish1);
 			fish1.bored = 0;
