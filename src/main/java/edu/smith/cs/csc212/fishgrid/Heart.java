@@ -11,9 +11,12 @@ import java.awt.Graphics2D;
  *
  */
 public class Heart extends WorldObject {
+	
+	boolean isVisible;
 
-	public Heart(World world) {
+	public Heart( World world) {
 		super(world);
+	
 	}
 
 	@Override

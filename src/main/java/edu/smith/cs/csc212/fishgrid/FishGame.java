@@ -44,7 +44,12 @@ public class FishGame {
 	 * The heart location!
 	 */
 	Heart heart;
-
+	
+	//Fish bored;
+	
+	
+	List<Heart> hearts;
+ 
 	public static final int NUM_ROCKS = 8;
 	public static final int NUM_FALLING_ROCKS = 10;
 	public static final int NUM_HEARTS = 1;
@@ -70,14 +75,11 @@ public class FishGame {
 		missing = new ArrayList<Fish>();
 		found = new ArrayList<Fish>();
 		homeFish = new ArrayList<Fish>();
+		hearts = new ArrayList<Heart>();
 
 		// Add a home!
 		home = world.insertFishHome();
 
-
-		for (int i=0; i<NUM_HEARTS; i++) {
-			world.insertHeartRandomly();
-		}
 
 		for (int i=0; i<NUM_FALLING_ROCKS; i++) {
 			world.insertFallingRockRandomly();
@@ -96,6 +98,8 @@ public class FishGame {
 		player.setPosition(home.getX(), home.getY());
 		player.markAsPlayer();
 		world.register(player);
+		
+	
 
 		// Generate fish of all the colors but the first into the "missing" List.
 		for (int ft = 1; ft < Fish.COLORS.length; ft++) {
@@ -155,13 +159,15 @@ public class FishGame {
 		// Make sure missing fish *do* something.
 		wanderMissingFish();
 
-
-		for(Fish fish: found) { 
+		for(int i=1; i<found.size(); i++ ) {
+			Fish fish = found.get(i);
 			fish.bored+= 1; 
-			if(fish.bored > 20 && found.size() > 1) {
-				missing.add(fish); 
-			} 
+			if(fish.bored > 20) {
+				missing.add(fish);
+			}
+
 		}
+		
 
 		for(Fish fish1: missing) {
 			found.remove(fish1);
@@ -188,7 +194,7 @@ public class FishGame {
 		// if the player collects a heart
 		for (WorldObject wo : overlap) {
 			if(wo instanceof Heart) {
-				score += 15;
+				score += 1;
 				wo.remove();
 			}
 		}
@@ -215,8 +221,16 @@ public class FishGame {
 					score += 10;
 				}	
 			}
-			// Increase score when hearts are collected
+			
 		}
+		
+		// Thank You to Yutong who gave me this idea
+		Random rand = ThreadLocalRandom.current();
+		if (rand.nextDouble() < 0.1) {
+				world.insertHeartRandomly();
+				
+			}
+		
 
 		// When fish get added to "found" they will follow the player around.
 		World.objectsFollow(player, found);

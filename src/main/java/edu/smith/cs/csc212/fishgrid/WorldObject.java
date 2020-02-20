@@ -1,5 +1,4 @@
 package edu.smith.cs.csc212.fishgrid;
-
 import java.awt.Graphics2D;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -47,7 +46,6 @@ public abstract class WorldObject {
 	 * https://docs.oracle.com/javase/7/docs/api/java/util/Deque.htmlP
 	 */
 	public Deque<IntPoint> recentPositions;
-
 	/**
 	 * Create a new WorldObject -- this is the call to super(world) in Fish.
 	 * 
@@ -57,7 +55,6 @@ public abstract class WorldObject {
 		this.world = world;
 		this.recentPositions = new LinkedList<>();
 	}
-
 	/**
 	 * Remove this WorldObject from its world.
 	 */
@@ -65,7 +62,6 @@ public abstract class WorldObject {
 		this.world.remove(this);
 		this.world = null;
 	}
-
 	/**
 	 * Move this object to a given position (ignoring rules).
 	 * 
@@ -77,7 +73,6 @@ public abstract class WorldObject {
 		this.y = y;
 		this.updatePosition();
 	}
-
 	/**
 	 * Move this object to a given position (ignoring rules).
 	 * 
@@ -86,7 +81,6 @@ public abstract class WorldObject {
 	public void setPosition(IntPoint pt) {
 		this.setPosition(pt.x, pt.y);
 	}
-
 	/**
 	 * Private method to keep track of this object's position history. Used to make
 	 * Fish follow the Player.
@@ -98,7 +92,6 @@ public abstract class WorldObject {
 			// Remove from back.
 			this.recentPositions.pollLast();
 		}
-
 	}
 
 	/**
@@ -114,7 +107,6 @@ public abstract class WorldObject {
 		}
 		return false;
 	}
-
 	/**
 	 * Is this a fish?
 	 * 
@@ -139,7 +131,6 @@ public abstract class WorldObject {
 	public boolean isPlayer() {
 		return isFish() && ((Fish) this).player;
 	}
-
 	/**
 	 * Move this object down if possible.
 	 * 
@@ -153,7 +144,6 @@ public abstract class WorldObject {
 		}
 		return false;
 	}
-
 	/**
 	 * Move this object left if possible.
 	 * 
@@ -167,7 +157,6 @@ public abstract class WorldObject {
 		}
 		return false;
 	}
-
 	/**
 	 * Move this object right if possible.
 	 * 
@@ -181,7 +170,6 @@ public abstract class WorldObject {
 		}
 		return false;
 	}
-
 	/**
 	 * Move randomly! 
 	 */
@@ -192,19 +180,15 @@ public abstract class WorldObject {
 				world.canSwim(this, x-1, y) ||
 				world.canSwim(this, x, y+1) ||
 				world.canSwim(this, x, y-1);
-
 		// If not, don't try to pick one.
 		if (!canMove) {
 			// "this" is stuck, and can't go anywhere!
 			return;
 		}
-
 		// Pick one at random (that works):
 		while (true) {
-
 			// Choose a direction at random.
 			int direction = ThreadLocalRandom.current().nextInt(4);
-
 			boolean success = false;
 			if (direction == 0) {
 				success = moveUp();
@@ -215,7 +199,6 @@ public abstract class WorldObject {
 			} else {
 				success = moveLeft();
 			}
-
 			// Did the direction we picked work?
 			if (success) {
 				// If so, exit this method now.
@@ -224,7 +207,6 @@ public abstract class WorldObject {
 			// Otherwise go pick another.
 		}
 	}
-
 	/**
 	 * Part of my position!
 	 * 
@@ -242,12 +224,9 @@ public abstract class WorldObject {
 	public int getY() {
 		return this.y;
 	}
-
-
 	public IntPoint getPosition() {
 		return new IntPoint(this.x, this.y);
 	}
-
 	/**
 	 * I'm a world object! I exist in the world somewhere! This method tests that!
 	 */
@@ -256,7 +235,6 @@ public abstract class WorldObject {
 			throw new AssertionError("Couldn't find myself! Check World.register still works!");
 		}
 	}
-
 	/**
 	 * Find all the items at the same position as me!
 	 * 
@@ -265,7 +243,6 @@ public abstract class WorldObject {
 	public List<WorldObject> findSameCell() {
 		return world.find(this.x, this.y);
 	}
-
 	/**
 	 * Check whether this object is in the same spot as another.
 	 * 
@@ -275,7 +252,6 @@ public abstract class WorldObject {
 	public boolean inSameSpot(WorldObject other) {
 		return this.x == other.getX() && this.y == other.getY();
 	}
-
 	/**
 	 * Explain to Java how to print a WorldObject.
 	 */
@@ -283,7 +259,6 @@ public abstract class WorldObject {
 	public String toString() {
 		return this.getClass().getSimpleName() + " @ (" + this.x + "," + this.y + ")";
 	}
-
 	/**
 	 * Draw this WorldObject!
 	 * 
@@ -292,12 +267,10 @@ public abstract class WorldObject {
 	 * @param g Graphics2D API.
 	 */
 	public abstract void draw(Graphics2D g);
-
 	/**
 	 * Step this WorldObject!
 	 * 
 	 * Abstract so that Fish and Rock, etc. MUST implement!
 	 */
 	public abstract void step();
-
 }

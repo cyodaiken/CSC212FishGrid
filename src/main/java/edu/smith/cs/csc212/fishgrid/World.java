@@ -263,21 +263,23 @@ public class World {
 		// Q1. What is recentPositions?
 		// Deque of IntPoints that tracks where each object has been for up to 64 positions 
 		// Q2. What is followers?
-		// Followers are the fish that follow the player after being caught. 
+		// Followers are the fish that follow the player after being caught aka found. 
 		// Q3. What is target?
 		// The target is the player fish.
 		// Q4. Why is past = putWhere[i+1]? Why not putWhere[i]?
 		// We don't want the followers to be on the same cell as the target; we 
-		// want them to be the the position behind the player or the follower ahead of them (which is at a previous 
-		// player position) 
+		// want them to be the the position behind the player or the follower 
+		// ahead of them (which is at a previous player position) 
 
 		List<IntPoint> putWhere = new ArrayList<>(target.recentPositions);
 		for (int i=0; i < followers.size() && i+1 < putWhere.size(); i++) {
 			// Q5. What is the deal with the two conditions in this for-loop?
 			// Conditions are in the "while" part of this loop.
-			// We don't want to get 'past' and set the position of the next follower if 
-			// either i is greater than the size of the list followers (English use of) or 
+			// We don't want a follower if either i is greater than the size of the
+			// list followers (English use of) or 
 			// i + 1 is greater than the size of the list putWhere (64 IntPoints) 
+			// Protects you from if the player hasn't gone anywhere but a missing
+			// fish steps on player.
 			IntPoint past = putWhere.get(i+1);
 			followers.get(i).setPosition(past.x, past.y);
 
