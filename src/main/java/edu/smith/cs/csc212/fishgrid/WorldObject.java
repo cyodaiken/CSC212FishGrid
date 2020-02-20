@@ -57,7 +57,7 @@ public abstract class WorldObject {
 		this.world = world;
 		this.recentPositions = new LinkedList<>();
 	}
-	
+
 	/**
 	 * Remove this WorldObject from its world.
 	 */
@@ -123,9 +123,13 @@ public abstract class WorldObject {
 	public boolean isFish() {
 		return this instanceof Fish;
 	}
-	
+
 	public boolean isRock() {
 		return this instanceof Rock;
+	}
+
+	public boolean isHeart() {
+		return this instanceof Heart;
 	}
 	/**
 	 * Is this the player?
@@ -188,19 +192,19 @@ public abstract class WorldObject {
 				world.canSwim(this, x-1, y) ||
 				world.canSwim(this, x, y+1) ||
 				world.canSwim(this, x, y-1);
-		
+
 		// If not, don't try to pick one.
 		if (!canMove) {
 			// "this" is stuck, and can't go anywhere!
 			return;
 		}
-		
+
 		// Pick one at random (that works):
 		while (true) {
-			
+
 			// Choose a direction at random.
 			int direction = ThreadLocalRandom.current().nextInt(4);
-			
+
 			boolean success = false;
 			if (direction == 0) {
 				success = moveUp();
@@ -211,7 +215,7 @@ public abstract class WorldObject {
 			} else {
 				success = moveLeft();
 			}
-			
+
 			// Did the direction we picked work?
 			if (success) {
 				// If so, exit this method now.
@@ -271,7 +275,7 @@ public abstract class WorldObject {
 	public boolean inSameSpot(WorldObject other) {
 		return this.x == other.getX() && this.y == other.getY();
 	}
-	
+
 	/**
 	 * Explain to Java how to print a WorldObject.
 	 */

@@ -19,16 +19,16 @@ public class FishHome extends WorldObject {
 	 * For graphically drawing the house.
 	 */
 	final Polygon house;
-	
+
 	public FishHome(World world) {
 		super(world);
-		
+
 		// I drew this out on graph paper.
 		roof = new Polygon();
 		roof.addPoint(1, 4);
 		roof.addPoint(9, 4);
 		roof.addPoint(5, 1);
-		
+
 		house = new Polygon();
 		house.addPoint(2, 4);
 		house.addPoint(2, 9);
@@ -40,7 +40,7 @@ public class FishHome extends WorldObject {
 		house.addPoint(8, 9);
 		house.addPoint(8, 4);
 	}
-	
+
 
 
 	@Override

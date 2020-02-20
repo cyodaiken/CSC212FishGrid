@@ -22,7 +22,7 @@ public class Fish extends WorldObject {
 			Color.magenta,
 			Color.pink,
 			Color.orange	
-			
+
 	};
 	/**
 	 * This is an index into the {@link #COLORS} array.
@@ -32,11 +32,11 @@ public class Fish extends WorldObject {
 	 * Whether or not this is the player;
 	 */
 	boolean player = false;
-	
+
 	boolean fastScared;
-	
+
 	int bored;
-	
+
 	/**
 	 * Called only on the Fish that is the player!
 	 */
@@ -55,12 +55,12 @@ public class Fish extends WorldObject {
 		this.bored = 0;
 		int isFastScared = rand.nextInt(10);
 		if(isFastScared < 4) {
-		this.fastScared = true;
+			this.fastScared = true;
 		} else {
 			this.fastScared = false;
 		}
 	}
-	
+
 	/**
 	 * What actual color is this fish? We store an index, so get it here.
 	 * @return the Color object from our array.
@@ -68,12 +68,12 @@ public class Fish extends WorldObject {
 	public Color getColor() {
 		return COLORS[this.color];
 	}
-	
+
 	/**
 	 * Animate our fish by facing left and then right over time.
 	 */
 	private int dt = 0;
-	
+
 	/**
 	 * Go ahead and ignore this method if you're not into graphics.
 	 * We use "dt" as a trick to make the fish change directions every second or so; this makes them feel a little more alive.
@@ -88,16 +88,16 @@ public class Fish extends WorldObject {
 		Shape body = new Ellipse2D.Double(-.40, -.2, .8, .4);
 		Shape tail = new Ellipse2D.Double(+.2, -.3, .2, .6);
 		Shape eye = new Ellipse2D.Double(-.25, -.1, .1, .1);
-		
+
 		Color color = getColor();
 		Color tailColor = color.darker();
 
-		
+
 		Graphics2D flipped = (Graphics2D) g.create();
 		if (dt < 50) {
 			flipped.scale(-1, 1);
 		}
-		
+
 		if (this.player) {
 			flipped.setColor(new Color(1f,1f,1f,0.5f));
 			flipped.fill(circle);
@@ -113,10 +113,10 @@ public class Fish extends WorldObject {
 		// draw tail:
 		flipped.setColor(tailColor);
 		flipped.fill(tail);
-		
+
 		flipped.dispose();
 	}
-	
+
 	@Override
 	public void step() {
 		// Fish are controlled at a higher level; see FishGame.

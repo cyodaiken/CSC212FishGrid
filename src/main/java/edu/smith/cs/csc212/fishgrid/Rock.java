@@ -26,36 +26,36 @@ public class Rock extends WorldObject {
 			new Color(138,129,141),
 			new Color(72,60,50)
 	};
-	
+
 	int indexRock;
-	
-	
+
+
 	/**
 	 * Construct a Rock in our world.
 	 * @param world - the grid world.
 	 */
 	public Rock(World world) {
 		super(world);
-		
+
 		this.indexRock = rand.nextInt(ROCK_COLORS.length);
 		// Note that all WorldObjects have a ``rand`` available so you don't need to make one.
 	}
-	
+
 
 	/**
 	 * Draw a rock!
 	 */
 	@Override
 	public void draw(Graphics2D g) {
-		
-		
+
+
 		g.setColor(ROCK_COLORS[indexRock]);
 		RoundRectangle2D rock = new RoundRectangle2D.Double(-.5,-.5,1,1,0.3,0.3);
 		g.fill(rock);
-		
-		
+
+
 		//if (click == getPosition()) {
-			
+
 		//	item.remove(r);
 		//}
 	}

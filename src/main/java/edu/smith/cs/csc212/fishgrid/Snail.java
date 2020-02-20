@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
  * @author jfoley
  */
 public class Snail extends WorldObject {
-	
+
 	/**
 	 * This is the color of the Snail's body.
 	 */
@@ -32,7 +32,7 @@ public class Snail extends WorldObject {
 	 * Is the snail going to the left?
 	 */
 	public boolean movingLeft = false;
-	
+
 	/**
 	 * Create a new Snail in a part of this world.
 	 * @param world - the world where the snail moves/lives.
@@ -57,7 +57,7 @@ public class Snail extends WorldObject {
 		Shape tentacleR = new Rectangle2D.Double(35, -20, 5, 20);
 		Shape eyeWhiteR = new Ellipse2D.Double(35 - 4, -28, 12, 12);
 		Shape eyePupilR = new Ellipse2D.Double(35 + 2, -26 + 4, 4, 4);
-		
+
 		bodyColor = Color.magenta;
 		g.setColor(bodyColor);
 		g.fill(body);

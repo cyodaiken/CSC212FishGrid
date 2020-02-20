@@ -90,7 +90,7 @@ public class Main extends GFX {
 		// Background of window is dark-dark green.
 		g.setColor(Color.green.darker().darker());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		
+
 		// Get a a reference to the game world to draw.
 		World world = game.world;
 
@@ -128,14 +128,14 @@ public class Main extends GFX {
 			wo.draw(forWo);
 			forWo.dispose();
 		}
-		
+
 		IntPoint hover = mouseToGame(this.getMouseLocation());
 		if (hover != null) {
 			g.setColor(new Color(0,1,0,0.5f));
 			g.fillRect(hover.x * tw, hover.y * th, tw, th);
 		}
 	}
-	
+
 	/**
 	 * Convert Mouse coordinates to Grid coordinates.
 	 * @param mouse maybe a Mouse location (or null).
@@ -168,7 +168,7 @@ public class Main extends GFX {
 			}
 			return;
 		}
-		
+
 		// Update the text in the TextBox.
 		this.gameState.setString(
 				"Step #: " + game.stepsTaken + 
@@ -193,9 +193,9 @@ public class Main extends GFX {
 		} else if (right) {
 			moved = this.game.player.moveRight();
 		}
-		
+
 		IntPoint click = mouseToGame(this.processClick());
-		
+
 		// Only advance the game if the player presses something!
 		if (skip || moved || click != null) {
 			if (click != null) {
