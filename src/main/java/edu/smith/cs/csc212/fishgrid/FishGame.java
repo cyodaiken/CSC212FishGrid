@@ -256,7 +256,7 @@ public class FishGame {
 					lost.moveRandomly(); 
 				}
 			} else { 
-				// make non fastScared fish move about 4/10 of the time
+				// make non fastScared fish move about 3/10 of the time
 				if (rand.nextDouble() < 0.3) { 
 					lost.moveRandomly(); 
 				} 
