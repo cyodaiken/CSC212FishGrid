@@ -32,10 +32,12 @@ public class Fish extends WorldObject {
 	 * Whether or not this is the player;
 	 */
 	boolean player = false;
-
+	// Whether a fish is scared, meaning the probability of them moving is more often 
 	boolean fastScared;
-
+	// allows each fish to get bored and stop following the player
 	int bored;
+	// bubble state of a fish
+	boolean bubbleFish;
 
 	/**
 	 * Called only on the Fish that is the player!
@@ -53,12 +55,15 @@ public class Fish extends WorldObject {
 		super(world);
 		this.color = color;
 		this.bored = 0;
+		// random number to randomly assign fastScared
 		int isFastScared = rand.nextInt(10);
+		// 4 indicates about half the time a fish will be fastScared 
 		if(isFastScared < 4) {
 			this.fastScared = true;
 		} else {
 			this.fastScared = false;
 		}
+		this.bubbleFish = false;
 	}
 
 	/**

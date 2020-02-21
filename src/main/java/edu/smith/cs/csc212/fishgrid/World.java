@@ -60,7 +60,6 @@ public class World {
 		return found;
 	}
 
-
 	/**
 	 * This is used by PlayGame to draw all our items!
 	 * @return the list of items.
@@ -157,6 +156,19 @@ public class World {
 		return r;
 	}
 
+	/**
+	 * Insert a new Bubble into the world at random.
+	 * @return the Bubble.
+	 */
+	public Bubble insertBubbleRandomly() {
+		Bubble b = new Bubble(this);
+		insertRandomly(b);
+		return b;
+	}
+	/**
+	 * Insert a new Heart into the world at random.
+	 * @return the Heart.
+	 */
 	public Heart insertHeartRandomly() {
 		Heart h = new Heart(this);
 		insertRandomly(h);
@@ -173,14 +185,20 @@ public class World {
 		insertRandomly(f);
 		return f;
 	}
-
+	/**
+	 * Insert a new FallingRock into the world at random.
+	 * @return the r.
+	 */
 	// TA Lauren helped me w/ this
 	public FallingRock insertFallingRockRandomly() {
 		FallingRock r = new FallingRock(this);
 		insertRandomly(r);
 		return r;
 	}
-
+	/**
+	 * Insert a new FishHome into the world at random.
+	 * @return the home.
+	 */
 	public FishHome insertFishHome() {
 		FishHome home = new FishHome(this);
 		insertRandomly(home);
@@ -225,23 +243,20 @@ public class World {
 				return false;
 			}
 			if (it instanceof Rock) {
+				// This if-statement doesn't let anyone step on a Rock.
 				return false;
 			}
 			if (it instanceof Fish) {
-
+				// This if-statement doesn't let anyone step on a fish unless it is the player.
 				if( isPlayer) {
 					return true;
 				} else {
 					return false;
 				}
-
 			}
-
 		}
-
 		// If we didn't see an obstacle, we can move there!
 		return true;
-
 	}
 	/**
 	 * This is how objects may move. Only Snails do right now.
@@ -251,7 +266,6 @@ public class World {
 			it.step();
 		}
 	}
-
 	/**
 	 * This signature is a little scary, but we need to support any subclass of WorldObject.
 	 * We don't know followers is a {@code List<Fish>} but it should work no matter what!
@@ -259,31 +273,28 @@ public class World {
 	 * @param followers a set of objects to follow the leader.
 	 */
 	public static void objectsFollow(WorldObject target, List<? extends WorldObject> followers) {
-		// TODO(FishGrid) Comment this method!
 		// Q1. What is recentPositions?
 		// Deque of IntPoints that tracks where each object has been for up to 64 positions 
 		// Q2. What is followers?
-		// Followers are the fish that follow the player after being caught aka found. 
+		// Followers are the fish that follow the player after being caught aka fish in found. 
 		// Q3. What is target?
 		// The target is the player fish.
 		// Q4. Why is past = putWhere[i+1]? Why not putWhere[i]?
 		// We don't want the followers to be on the same cell as the target; we 
-		// want them to be the the position behind the player or the follower 
-		// ahead of them (which is at a previous player position) 
+		// want them to be in the previous position of the player or the follower 
+		// ahead of them (which is at some previous player position) 
 
 		List<IntPoint> putWhere = new ArrayList<>(target.recentPositions);
 		for (int i=0; i < followers.size() && i+1 < putWhere.size(); i++) {
 			// Q5. What is the deal with the two conditions in this for-loop?
 			// Conditions are in the "while" part of this loop.
 			// We don't want a follower if either i is greater than the size of the
-			// list followers (English use of) or 
+			// list followers; not another fish who 'needs' to follow or 
 			// i + 1 is greater than the size of the list putWhere (64 IntPoints) 
-			// Protects you from if the player hasn't gone anywhere but a missing
-			// fish steps on player.
+			// Protects you from if the player hasn't gone enough positions for another missing
+			// fish to follow it (not enough previous player positions).
 			IntPoint past = putWhere.get(i+1);
 			followers.get(i).setPosition(past.x, past.y);
-
-
 		}
 	}
 }

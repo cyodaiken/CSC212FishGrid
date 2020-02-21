@@ -115,13 +115,29 @@ public abstract class WorldObject {
 	public boolean isFish() {
 		return this instanceof Fish;
 	}
-
+	/**
+	 * Is this a rock?
+	 * 
+	 * @return true if this is a Rock.
+	 */
 	public boolean isRock() {
 		return this instanceof Rock;
 	}
-
+	/**
+	 * Is this a heart?
+	 * 
+	 * @return true if this is a Heart.
+	 */
 	public boolean isHeart() {
 		return this instanceof Heart;
+	}
+	/**
+	 * Is this a bubble?
+	 * 
+	 * @return true if this is a Bubble.
+	 */
+	public boolean isBubble() {
+		return this instanceof Bubble;
 	}
 	/**
 	 * Is this the player?

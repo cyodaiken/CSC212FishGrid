@@ -44,15 +44,13 @@ public class FishGame {
 	 * The heart location!
 	 */
 	Heart heart;
-	
-	//Fish bored;
-	
-	
+
 	List<Heart> hearts;
- 
+
 	public static final int NUM_ROCKS = 8;
 	public static final int NUM_FALLING_ROCKS = 10;
 	public static final int NUM_HEARTS = 1;
+	public static final int NUM_BUBBLES = 5;
 
 	/**
 	 * Number of steps!
@@ -80,16 +78,21 @@ public class FishGame {
 		// Add a home!
 		home = world.insertFishHome();
 
-
+		// Add falling rocks!
 		for (int i=0; i<NUM_FALLING_ROCKS; i++) {
 			world.insertFallingRockRandomly();
 		}
 
+		// Add bubbles!
+		for (int i=0; i<NUM_BUBBLES; i++) {
+			world.insertBubbleRandomly();
+		}
+		// Add rocks!
 		for (int i=0; i<NUM_ROCKS; i++) {
 			world.insertRockRandomly();
 
 		}
-
+		// Add a snail!
 		world.insertSnailRandomly();
 
 		// Make the player out of the 0th fish color.
@@ -98,8 +101,6 @@ public class FishGame {
 		player.setPosition(home.getX(), home.getY());
 		player.markAsPlayer();
 		world.register(player);
-		
-	
 
 		// Generate fish of all the colors but the first into the "missing" List.
 		for (int ft = 1; ft < Fish.COLORS.length; ft++) {
@@ -122,9 +123,11 @@ public class FishGame {
 	 */
 	public boolean gameOver() {
 
+		// bringing fish to fishhome
 		if(this.player.inSameSpot(this.home)) {
 
 			homeFish.addAll(found);
+
 			for(WorldObject fish : found) {
 				world.remove(fish);
 			}
@@ -133,16 +136,17 @@ public class FishGame {
 			}
 		}
 
+		// remove homeFish from the missing list
+		for(Fish fish1: homeFish) {
+			missing.remove(fish1);
+		}
+		// missing fish can find their way home
 		for(Fish fish: missing) {
 
 			if(fish.inSameSpot(this.home)) {
 				homeFish.add(fish);
 				world.remove(fish);
 			}	
-		}
-
-		for(Fish fish1: homeFish) {
-			missing.remove(fish1);
 		}
 
 		return missing.isEmpty() && found.isEmpty();
@@ -159,6 +163,8 @@ public class FishGame {
 		// Make sure missing fish *do* something.
 		wanderMissingFish();
 
+		// Starting at the second following fish, increase bored and when it gets to 20 steps
+		// remove add it to missing
 		for(int i=1; i<found.size(); i++ ) {
 			Fish fish = found.get(i);
 			fish.bored+= 1; 
@@ -167,18 +173,19 @@ public class FishGame {
 			}
 
 		}
-		
 
+		// removing found fish from missing and set bored back to 0
 		for(Fish fish1: missing) {
 			found.remove(fish1);
 			fish1.bored = 0;
 		}
 
-		// These are all the objects in the world in the same cell as the missingfish.
+		// These are all the objects in the world in the same cell as the missing fish.
 		for(Fish fishes: missing) {
 			List<WorldObject> sameLocation = fishes.findSameCell();
 			// The missing fish is there, too, let's skip them.
 			sameLocation.remove(fishes);
+			// when fish are in the same cell as hearts remove hearts
 			for (WorldObject wo: sameLocation) {
 				if(wo instanceof Heart) {
 					wo.remove();
@@ -221,16 +228,16 @@ public class FishGame {
 					score += 10;
 				}	
 			}
-			
+
 		}
-		
+
 		// Thank You to Yutong who gave me this idea
+		// when randDouble is 0.0, make a heart show up
 		Random rand = ThreadLocalRandom.current();
 		if (rand.nextDouble() < 0.1) {
-				world.insertHeartRandomly();
-				
-			}
-		
+			world.insertHeartRandomly();
+
+		}
 
 		// When fish get added to "found" they will follow the player around.
 		World.objectsFollow(player, found);
@@ -243,11 +250,13 @@ public class FishGame {
 
 		for (Fish lost : missing) {	
 			// TA Grace helped me
+			// for fastScared fish when the random Double is 0.0-0.7 inclusive make the fish move 
 			if(lost.fastScared) {
 				if (rand.nextDouble() < 0.8) {
 					lost.moveRandomly(); 
 				}
 			} else { 
+				// make non fastScared fish move about 4/10 of the time
 				if (rand.nextDouble() < 0.3) { 
 					lost.moveRandomly(); 
 				} 
@@ -261,12 +270,19 @@ public class FishGame {
 	 * @param y - the y-tile.
 	 */
 	public void click(int x, int y) {
-		// TODO(FishGrid) use this print to debug your World.canSwim changes!
+		
 		System.out.println("Clicked on: "+x+","+y+ " world.canSwim(player,...)="+world.canSwim(player, x, y));
 		List<WorldObject> atPoint = world.find(x, y);
 
+		// remove rocks when user clicks on them
 		for (WorldObject wo: atPoint) {
 			if(wo.isRock()) {
+				wo.remove();
+			}
+		}
+		// remove bubbles when user clicks on them (doesn't include player fish)
+		for (WorldObject wo: atPoint) {
+			if(wo.isBubble()) {
 				wo.remove();
 			}
 		}
